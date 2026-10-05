@@ -1,0 +1,48 @@
+<form class="asistente-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <h4>Inscribir Asistente</h4>
+
+  <!-- FormGroup anidado -->
+  <div formGroupName="asistente">
+    <div class="form-group">
+      <label>Nombre completo:</label>
+      <input type="text" formControlName="nombre" placeholder="Nombre y apellidos">
+      @if (nombre.invalid && (nombre.dirty || nombre.touched)) {
+        <div class="error">
+          @if (nombre.hasError('required')) { <span>El nombre es requerido.</span> }
+          @if (nombre.hasError('minlength')) { <span>El nombre debe tener al menos 3 caracteres.</span> }
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Correo electrónico:</label>
+      <input type="email" formControlName="correo" placeholder="correo@ejemplo.com">
+      @if (correo.invalid && (correo.dirty || correo.touched)) {
+        <div class="error">
+          @if (correo.hasError('required')) { <span>El correo es requerido.</span> }
+          @if (correo.hasError('email')) { <span>Formato de correo inválido.</span> }
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Edad:</label>
+      <input type="number" formControlName="edad" placeholder="18 o más">
+      @if (edad.invalid && (edad.dirty || edad.touched)) {
+        <div class="error">
+          @if (edad.hasError('required')) { <span>La edad es requerida.</span> }
+          @if (edad.hasError('edadMinima')) { <span>El asistente debe ser mayor de edad (18 años o más).</span> }
+        </div>
+      }
+    </div>
+  </div>
+
+  @if (errorServidor) {
+    <div class="error general-error">{{ errorServidor }}</div>
+  }
+
+  <div class="acciones">
+    <button type="submit" class="submit-btn" [disabled]="form.invalid || enviando">Inscribir</button>
+    <button type="button" class="btn-secondary" (click)="cancelado.emit()">Cancelar</button>
+  </div>
+</form>

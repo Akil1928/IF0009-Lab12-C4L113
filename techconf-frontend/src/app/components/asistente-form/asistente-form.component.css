@@ -1,0 +1,11 @@
+.asistente-form { margin-top: .8rem; padding: .8rem; border: 1px dashed #90a4ae; border-radius: 6px; background: #fff; }
+.asistente-form h4 { margin: 0 0 .6rem; }
+.form-group { margin-bottom: .7rem; display: flex; flex-direction: column; gap: .25rem; }
+input { padding: .45rem; border: 1px solid #bbb; border-radius: 4px; font-size: .95rem; }
+input.ng-invalid.ng-touched { border-color: #c62828; }
+.error { color: #c62828; font-size: .82rem; }
+.general-error { margin-bottom: .6rem; font-weight: 600; }
+.acciones { display: flex; gap: .5rem; }
+.submit-btn { background: #1565c0; color: #fff; border: 0; padding: .45rem 1rem; border-radius: 4px; cursor: pointer; }
+.submit-btn:disabled { background: #9e9e9e; cursor: not-allowed; }
+.btn-secondary { background: #eceff1; border: 1px solid #b0bec5; border-radius: 4px; padding: .45rem .9rem; cursor: pointer; }
