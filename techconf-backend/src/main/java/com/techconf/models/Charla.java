@@ -1,5 +1,6 @@
 package com.techconf.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -35,6 +36,12 @@ public class Charla {
     @Column(name = "etiqueta")
     private List<String> etiquetas = new ArrayList<>();
 
+    // Lado "uno" de la relación 1:N. El dueño de la FK es Asistente.charla (mappedBy).
+    // READ_ONLY: se serializa en las respuestas pero se ignora si llega en el JSON de entrada.
+    @OneToMany(mappedBy = "charla", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private List<Asistente> asistentes = new ArrayList<>();
+
     public Charla() {}
 
     public Long getId() { return id; }
@@ -60,4 +67,13 @@ public class Charla {
 
     public List<String> getEtiquetas() { return etiquetas; }
     public void setEtiquetas(List<String> etiquetas) { this.etiquetas = etiquetas; }
+
+    public List<Asistente> getAsistentes() { return asistentes; }
+    public void setAsistentes(List<Asistente> asistentes) { this.asistentes = asistentes; }
+
+    // Mantiene sincronizados ambos lados de la relación bidireccional
+    public void agregarAsistente(Asistente asistente) {
+        asistentes.add(asistente);
+        asistente.setCharla(this);
+    }
 }
