@@ -1,13 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormArray, Validators } from '@angular/forms';
-import { CharlaService, Charla } from '../../services/charla.service';
+import { CharlaService, Charla, Asistente } from '../../services/charla.service';
+import { AsistenteFormComponent } from '../asistente-form/asistente-form.component';
 import { validarRangoFechas } from '../../validators/rango-fechas.validator';
 
 @Component({
   selector: 'app-charla-registro',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, AsistenteFormComponent],
   templateUrl: './charla-registro.component.html',
   styleUrl: './charla-registro.component.css'
 })
@@ -16,6 +17,8 @@ export class CharlaRegistroComponent implements OnInit {
   private fb = inject(FormBuilder);
   charlas: Charla[] = [];
   mensajeExito: string = '';
+  mensajeAsistente: string = '';
+  charlaAbiertaId: number | null = null; // Tarjeta con el formulario de inscripción desplegado
 
   // Formulario con fechas, validador cruzado a nivel de grupo y FormArray de etiquetas
   registroForm = this.fb.group({
@@ -56,6 +59,21 @@ export class CharlaRegistroComponent implements OnInit {
       },
       error: (err) => console.error(err)
     });
+  }
+
+  // Despliega u oculta el formulario de inscripción de una tarjeta
+  toggleInscripcion(charlaId: number | undefined): void {
+    if (charlaId === undefined) { return; }
+    this.charlaAbiertaId = this.charlaAbiertaId === charlaId ? null : charlaId;
+  }
+
+  // Actualiza la tarjeta de la charla con el nuevo asistente devuelto por el servidor
+  onAsistenteInscrito(charlaId: number | undefined, asistente: Asistente): void {
+    this.charlas = this.charlas.map(c =>
+      c.id === charlaId ? { ...c, asistentes: [...(c.asistentes ?? []), asistente] } : c
+    );
+    this.charlaAbiertaId = null;
+    this.mensajeAsistente = `¡${asistente.nombreCompleto} fue inscrito exitosamente!`;
   }
 
   private reiniciarFormulario(): void {

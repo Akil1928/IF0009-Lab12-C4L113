@@ -82,6 +82,9 @@
 
   <div class="list-section">
     <h2>Agenda de TechConf</h2>
+    @if (mensajeAsistente) {
+      <div class="alert success">{{ mensajeAsistente }}</div>
+    }
     <div class="card-grid">
       @for (charla of charlas; track charla.id) {
         <div class="card">
@@ -95,6 +98,28 @@
               <span class="tag">{{ tag }}</span>
             }
           </div>
+
+          <div class="asistentes">
+            <strong>Asistentes ({{ charla.asistentes?.length ?? 0 }}):</strong>
+            <ul>
+              @for (a of charla.asistentes; track a.id) {
+                <li>{{ a.nombreCompleto }} <small>({{ a.correo }}, {{ a.edad }} años)</small></li>
+              } @empty {
+                <li class="vacio">Aún no hay asistentes inscritos.</li>
+              }
+            </ul>
+          </div>
+
+          <button type="button" class="btn-inscribir" (click)="toggleInscripcion(charla.id)">
+            {{ charlaAbiertaId === charla.id ? 'Cerrar' : 'Inscribir Asistente' }}
+          </button>
+
+          @if (charlaAbiertaId === charla.id && charla.id !== undefined) {
+            <app-asistente-form
+              [charlaId]="charla.id"
+              (inscrito)="onAsistenteInscrito(charla.id, $event)"
+              (cancelado)="charlaAbiertaId = null" />
+          }
         </div>
       } @empty {
         <p>No hay charlas registradas aún en el sistema.</p>

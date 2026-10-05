@@ -22,3 +22,7 @@ input.ng-invalid.ng-touched { border-color: #c62828; }
 .btn-secondary { background: #eceff1; border: 1px solid #b0bec5; border-radius: 4px; padding: .4rem .8rem; cursor: pointer; }
 .tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .4rem; }
 .tag { background: #fff3e0; color: #e65100; padding: 2px 8px; border-radius: 10px; font-size: .8rem; }
+
+.asistentes ul { margin: .3rem 0 .6rem; padding-left: 1.1rem; font-size: .9rem; }
+.asistentes .vacio { color: #78909c; list-style: none; margin-left: -1.1rem; }
+.btn-inscribir { background: #2e7d32; color: #fff; border: 0; border-radius: 4px; padding: .4rem .9rem; cursor: pointer; }
