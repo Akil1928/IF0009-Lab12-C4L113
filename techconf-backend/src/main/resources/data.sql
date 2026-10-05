@@ -16,3 +16,11 @@ INSERT INTO charla_etiquetas (charla_id, etiqueta) VALUES (2, 'Backend');
 INSERT INTO charla_etiquetas (charla_id, etiqueta) VALUES (2, 'Nube');
 INSERT INTO charla_etiquetas (charla_id, etiqueta) VALUES (3, 'Angular');
 INSERT INTO charla_etiquetas (charla_id, etiqueta) VALUES (3, 'Frontend');
+
+-- Lab 12: Asistentes inscritos (charla_id = 1, 2, 3)
+INSERT INTO asistente (nombre_completo, correo, edad, charla_id) VALUES ('Ana Solano Vargas', 'ana.solano@correo.cr', 21, 1);
+INSERT INTO asistente (nombre_completo, correo, edad, charla_id) VALUES ('Luis Mora Chaves', 'luis.mora@correo.cr', 25, 1);
+INSERT INTO asistente (nombre_completo, correo, edad, charla_id) VALUES ('Daniela Quesada Ruiz', 'daniela.quesada@correo.cr', 30, 2);
+INSERT INTO asistente (nombre_completo, correo, edad, charla_id) VALUES ('Mario Jimenez Soto', 'mario.jimenez@correo.cr', 19, 2);
+INSERT INTO asistente (nombre_completo, correo, edad, charla_id) VALUES ('Sofia Araya Lopez', 'sofia.araya@correo.cr', 22, 3);
+INSERT INTO asistente (nombre_completo, correo, edad, charla_id) VALUES ('Jose Pablo Cordero', 'jose.cordero@correo.cr', 28, 3);
