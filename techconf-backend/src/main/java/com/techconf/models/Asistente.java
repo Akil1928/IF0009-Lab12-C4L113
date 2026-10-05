@@ -2,6 +2,7 @@ package com.techconf.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 public class Asistente {
@@ -9,12 +10,18 @@ public class Asistente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El nombre completo es requerido.")
+    @Size(min = 3, message = "El nombre debe tener al menos 3 caracteres.")
     @Column(name = "nombre_completo", nullable = false)
     private String nombreCompleto;
 
+    @NotBlank(message = "El correo es requerido.")
+    @Email(message = "Formato de correo inválido.")
     @Column(nullable = false)
     private String correo;
 
+    @NotNull(message = "La edad es requerida.")
+    @Min(value = 18, message = "El asistente debe ser mayor de edad (18 años o más).")
     @Column(nullable = false)
     private Integer edad;
 

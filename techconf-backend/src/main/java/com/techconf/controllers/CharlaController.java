@@ -4,6 +4,7 @@ import com.techconf.models.Asistente;
 import com.techconf.models.Charla;
 import com.techconf.repositories.AsistenteRepository;
 import com.techconf.repositories.CharlaRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class CharlaController {
     }
 
     @PostMapping
-    public Charla registrarCharla(@RequestBody Charla nuevaCharla) {
+    public Charla registrarCharla(@Valid @RequestBody Charla nuevaCharla) {
         nuevaCharla.setId(null);
         return repository.save(nuevaCharla);
     }
@@ -42,7 +43,7 @@ public class CharlaController {
     // Vincula un asistente a la charla indicada
     @PostMapping("/{id}/asistentes")
     public ResponseEntity<Asistente> inscribirAsistente(@PathVariable Long id,
-                                                        @RequestBody Asistente asistente) {
+                                                        @Valid @RequestBody Asistente asistente) {
         Charla charla = buscarCharla(id);
 
         if (asistenteRepository.existsByCharla_IdAndCorreoIgnoreCase(id, asistente.getCorreo())) {
