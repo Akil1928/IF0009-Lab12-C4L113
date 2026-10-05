@@ -1,0 +1,104 @@
+<div class="container">
+  <div class="form-section">
+    <h2>Registrar Nueva Charla</h2>
+    @if (mensajeExito) {
+      <div class="alert success">{{ mensajeExito }}</div>
+    }
+
+    <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Título de la Charla:</label>
+        <input type="text" formControlName="titulo" placeholder="Ej. Arquitectura Hexagonal">
+        @if (tituloCtrl?.invalid && (tituloCtrl?.dirty || tituloCtrl?.touched)) {
+          <div class="error">
+            @if (tituloCtrl?.hasError('required')) { <span>El título es requerido.</span> }
+            @if (tituloCtrl?.hasError('minlength')) { <span>El título debe tener al menos 5 caracteres.</span> }
+          </div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Expositor:</label>
+        <input type="text" formControlName="expositor" placeholder="Nombre completo">
+        @if (expositorCtrl?.invalid && expositorCtrl?.touched) {
+          <div class="error">El expositor es requerido.</div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Nivel de la Charla:</label>
+        <select formControlName="nivel">
+          <option value="Principiante">Principiante</option>
+          <option value="Intermedio">Intermedio</option>
+          <option value="Avanzado">Avanzado</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Email de Contacto:</label>
+        <input type="email" formControlName="emailContacto" placeholder="correo@ejemplo.com">
+        @if (emailCtrl?.invalid && emailCtrl?.touched) {
+          <div class="error">
+            @if (emailCtrl?.hasError('required')) { <span>El email es requerido.</span> }
+            @if (emailCtrl?.hasError('email')) { <span>Formato de email inválido.</span> }
+          </div>
+        }
+      </div>
+
+      <div class="fechas-container">
+        <div class="form-group">
+          <label>Fecha de Inicio:</label>
+          <input type="date" formControlName="fechaInicio">
+        </div>
+        <div class="form-group">
+          <label>Fecha de Fin:</label>
+          <input type="date" formControlName="fechaFin">
+        </div>
+      </div>
+
+      @if (registroForm.errors?.['fechasInvalidas'] && registroForm.touched) {
+        <div class="error general-error">La fecha de fin no puede ser anterior a la de inicio.</div>
+      }
+
+      <fieldset formArrayName="etiquetas" class="tags-section">
+        <legend>Etiquetas Tecnológicas (Tags)</legend>
+        @for (control of etiquetasArray.controls; track $index) {
+          <div class="dynamic-row">
+            <input type="text" [formControlName]="$index" placeholder="Ej. Spring Boot">
+            @if (etiquetasArray.length > 1) {
+              <button type="button" class="btn-danger" (click)="removerEtiqueta($index)">X</button>
+            }
+            @if (control.invalid && control.touched) {
+              <span class="error inline-error">*</span>
+            }
+          </div>
+        }
+        <button type="button" class="btn-secondary" (click)="agregarEtiqueta()">+ Añadir Otra Etiqueta</button>
+      </fieldset>
+
+      <button type="submit" [disabled]="registroForm.invalid" class="submit-btn">Guardar Charla</button>
+    </form>
+  </div>
+
+  <div class="list-section">
+    <h2>Agenda de TechConf</h2>
+    <div class="card-grid">
+      @for (charla of charlas; track charla.id) {
+        <div class="card">
+          <h3>{{ charla.titulo }}</h3>
+          <p><strong>Expositor:</strong> {{ charla.expositor }}</p>
+          <p><strong>Nivel:</strong> <span class="badge">{{ charla.nivel }}</span></p>
+          <p><strong>Contacto:</strong> {{ charla.emailContacto }}</p>
+          <p><strong>Fechas:</strong> {{ charla.fechaInicio }} → {{ charla.fechaFin }}</p>
+          <div class="tags">
+            @for (tag of charla.etiquetas; track $index) {
+              <span class="tag">{{ tag }}</span>
+            }
+          </div>
+        </div>
+      } @empty {
+        <p>No hay charlas registradas aún en el sistema.</p>
+      }
+    </div>
+  </div>
+</div>
